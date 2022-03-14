@@ -18,7 +18,7 @@ class Filter:
             if temp.Contains(num):
                 bias = num >> (i << 4)
                 flag = bias & 1
-                if flag==1:
+                if flag==1:#是否>=2**(16i)
                     temp=temp.lefchld
                 else:
                     temp=temp.rigchld
@@ -36,9 +36,9 @@ class Filter:
                 print("第二层插入数字")
             bias = num >> (i << 4)
             flag = bias & 1
-            mask = ~((-1) << (16 + (i<<4)))
+            mask = (1) << (16 + (i<<4))
             Toadd = num & mask
-            print(Toadd)
+            #print(Toadd)
             '''根据1/0判断向哪边bloom filter添加'''
             if flag == 1:
                 # print(temp.leftfilter==None)

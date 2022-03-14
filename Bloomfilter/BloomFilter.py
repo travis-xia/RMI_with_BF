@@ -2,7 +2,7 @@ import hashlib
 import math
 from struct import pack, unpack, calcsize
 import bitarray
-from utils import running_python_3, range_fn, is_string_io
+from Bloomfilter.utils import  running_python_3, range_fn, is_string_io
 
 
 #创建hash functions
