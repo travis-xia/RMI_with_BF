@@ -23,15 +23,18 @@ class node:
         self.rigchld=None
     '''提供查询数字是否存在的服务'''
     def Contains(self,num):
-        bias=num>>((self.level-1)<<4)
+        # bias=num>>((self.level-1)<<4)
+        bias=num>>(32-self.level)
         flag=bias & 1
         '''第一层取前16bits进入bloom filter,第二层取全部32bits'''
-        mask = ~((-1)<<(16+((self.level-1)<<4)))
-        temp= num & mask
+        # mask = ~((-1)<<(16+((self.level-1)<<4)))
+        # temp= num & mask
         if flag==1:
-            return temp in self.leftfilter
+            # return temp in self.leftfilter
+            return num in self.leftfilter
         else:
-            return temp in self.rightfilter
+            # return temp in self.rightfilter
+            return num in self.leftfilter
     '''提供添加元素的服务'''
     def Add(self,num,flag):
         # print("开始添加数字"+str(num))
@@ -98,7 +101,7 @@ class MLmodel:
             ubound = self.data_size - 1
         while lbound <= ubound:
             if self.data[pos] == key:
-                print("successful search:",key,pos)
+                #print("successful search:",key,pos)
                 return pos
             elif self.data[pos] > key:
                 ubound = pos - 1

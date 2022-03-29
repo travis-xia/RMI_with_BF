@@ -5,10 +5,10 @@ class Filter:
     '''初始化函数应该对层数以及期望的FPR率'''
     def __init__(self,FPR):
         '''我们的模型应该通过用户输入的层数和FPR推算出需要的bloom filter的大小和error_rate'''
-        self.root=node(1,100000,0.01,100000,0.01)
+        self.root=node(1,200000,0.01,200000,0.01)
         self.level = 2
-        leftchd=node(2,100000,0.001,100000,0.001)
-        rightchd = node(2, 100000, 0.001, 100000, 0.001)
+        leftchd=node(2,200000,0.001,200000,0.001)
+        rightchd = node(2, 200000, 0.001, 200000, 0.001)
         self.root.lefchld=leftchd
         self.root.rigchld=rightchd
     def Contains(self,num):
@@ -17,7 +17,7 @@ class Filter:
         '''遍历这棵树'''
         for i in range(self.level):
             if temp.Contains(num):
-                bias = num >> (i << 4)
+                bias = num >> (32-i-1)
                 flag = bias & 1
                 if flag==1:
                     temp=temp.lefchld
@@ -43,41 +43,36 @@ class Filter:
             #     print("第一层插入数字")
             # else:
             #     print("第二层插入数字")
-            bias = num >> (i << 4)
+            bias = num >> (32-i-1)
             flag = bias & 1
-            mask = ~((-1) << (16 + (i<<4)))
-            Toadd = num & mask
+            # mask = ~((-1) << (16 + (i<<4)))
+            # Toadd = num & mask
             # print(Toadd)
             '''根据1/0判断向哪边bloom filter添加'''
             if flag == 1:
                 # print(temp.leftfilter==None)
-                judge=temp.Add(Toadd,1)
+                # judge=temp.Add(Toadd,1)
+                judge = temp.Add(num, 1)
                 '''判断是否重复'''
-                if judge:
-                    # print("元素已经存在！")
-                    temp=temp.lefchld
-                else:
-                    # print("元素第一次插入！")
-                    temp = temp.lefchld
+                # if judge:
+                #     # print("元素已经存在！")
+                #     temp=temp.lefchld
+                # else:
+                #     # print("元素第一次插入！")
+                #     temp = temp.lefchld
+                temp=temp.lefchld
                 # print("向下移动")
             if flag == 0:
-                judge = temp.Add(Toadd,0)
-                if judge:
-                    # print("元素已经存在！")
-                    temp=temp.rigchld
-                else:
-                    # print("元素第一次插入！")
-                    temp=temp.rigchld
+                # judge = temp.Add(Toadd,0)
+                judge = temp.Add(num, 1)
+                # if judge:
+                #     # print("元素已经存在！")
+                #     temp=temp.rigchld
+                # else:
+                #     # print("元素第一次插入！")
+                #     temp=temp.rigchld
+                temp=temp.rigchld
                 # print("向下移动")
     def Build(self,keys):
         for ind in range(len(keys)):
             self.Add(keys[ind])
-
-
-
-
-
-
-
-
-

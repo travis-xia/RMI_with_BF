@@ -14,8 +14,8 @@ def Test_Simple_main():
         data=pd.read_excel(path)
     '''
     '''Randomly generate data from (0,800000)'''
-    data = np.hstack(np.random.randint(300000, size=150000))
-
+    data = np.hstack(np.random.randint( ((-1)<<31) ,1<<31, size=150000))
+    data.sort()
     '''Generate three different model:Traditional bloom filter/pyBloom/RMI
         filter1=BloomFilter(capacity=?,error_rate=?);
         filter2=Filter(FPR=?);
@@ -30,21 +30,33 @@ def Test_Simple_main():
     list3 = np.array([])
     list0 = np.array([])
     for i in data:  # range(10):
-        if (i & 1) and ((i >> 16) & 1):
+        # if (i & 1) and ((i >> 16) & 1):
+        #     list0 = np.append(list0, i)
+        # if (i & 1) and not ((i >> 16) & 1):
+        #     list1 = np.append(list1, i)
+        # elif not (i & 1) and ((i >> 16) & 1):
+        #     list2 = np.append(list2, i)
+        # else:
+        #     list3 = np.append(list3, i)
+        if (i>>30)&3==0:
             list0 = np.append(list0, i)
-        if (i & 1) and not ((i >> 16) & 1):
+        elif (i>>30)&3==1:
             list1 = np.append(list1, i)
-        elif not (i & 1) and ((i >> 16) & 1):
+        elif (i>>30)&3==2:
             list2 = np.append(list2, i)
-        else:
+        elif (i>>30)&3==3:
             list3 = np.append(list3, i)
     if list0.size != 0:
+        print("0 build")
         model0 = MLmodel(list0)
     if list1.size != 0:
+        print("1 build")
         model1 = MLmodel(list1)
     if list2.size != 0:
+        print("2 build")
         model2 = MLmodel(list2)
     if list3.size != 0:
+        print("3 build")
         model3 = MLmodel(list3)
 
     start=time.time()
@@ -86,20 +98,36 @@ def Test_Simple_main():
     print("traditional cost is ")
     print(end-start)
     start=time.time()
-    for i in range(300000):
+    count_suc = 0
+    count_fal_bf = 0
+    count_fal = 0
+    for i in data:
         # print(filter2.Contains(i))
         flag = filter2.Contains(i)
         if flag == -1 :
             #print("False")
-            pass
-        elif flag ==11:
-            print(model0.search(i))
-        elif flag == 10:
-            print(model1.search(i))
+            count_fal_bf+=1
+        elif flag ==0:
+            if model0.search(i) :
+                count_suc+=1
+            else:
+                count_fal+=1
         elif flag == 1:
-            print(model2.search(i))
+            if model1.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
+        elif flag == 10:
+            if model2.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
         else:
-            print(model3.search(i))
+            if model3.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
+    print("suc:",count_suc," bf fal:",count_fal_bf," fal:",count_fal)
     end=time.time()
     print("total error is")
     print(newerr)
