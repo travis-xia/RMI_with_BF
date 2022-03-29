@@ -43,26 +43,28 @@ class node:
 
 
 class MLmodel:
-    def __init__(self,model_flag=0):
+    def __init__(self,data,model_flag=0):
         self.model_flag = model_flag #0为线性模型，1为DNN
-        if self.model_flag:
+        if self.model_flag==0:
             self.model = LinearRegression()
         else:
             self.model = None
         self.data = None
         self.data_size = None
         self.error_bound = []
+        self.train(data)
 
-
-    def train(self,x,label):##nparray形式传入
+    def train(self,x):##nparray形式传入
+        #print(x)
         if self.model_flag == 0:
             self.data = x
-            self.data_size = N = x.size
+            self.data_size = N = len(x)
+            label = np.arange(N)
             x = x.reshape(-1,1)
             self.model.fit(x,label)
             min_err = max_err = average_error = 0
             for i in range(N):
-                pos = int( self.model.predict([[ x[i] ]]) )
+                pos = int( self.model.predict([ x[i] ]) )#x[i]已经是列表了
                 err = pos - label[i]
                 average_error += abs(err) /N
                 if err < min_err:
@@ -72,14 +74,14 @@ class MLmodel:
             self.error_bound = [min_err, max_err]
 
 
-    def cdf(x):
-        loc = x.mean()
-        scale = x.std()
-        n = x.size
-        pos = norm.cdf(x, loc, scale) * n
-        return pos
+    # def cdf(x):
+    #     loc = x.mean()
+    #     scale = x.std()
+    #     n = x.size
+    #     pos = norm.cdf(x, loc, scale) * n
+    #     return pos
 
-    @profile
+    #@profile
     def search(self,key):
         pos = int(self.model.predict([[key]]))
         lbound = pos+self.error_bound[0]
