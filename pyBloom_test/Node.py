@@ -67,7 +67,15 @@ class MLmodel:
             x = x.reshape(-1,1)
             self.model.fit(x,label)
             min_err = max_err = average_error = 0
+            #print(N,int(np.sqrt(N)))
+            # randomChoice = np.random.randint(0,N,int(np.sqrt(N)))
+            # randomChoice.sort()
+            # for i in randomChoice:
+            print('this model\'s data',self.data)
+            print("    error bound calculating...")
             for i in range(N):
+                if i%100000==0 :
+                    print(i)
                 pos = int( self.model.predict([ x[i] ]) )#x[i]已经是列表了
                 err = pos - label[i]
                 average_error += abs(err) /N
@@ -75,6 +83,7 @@ class MLmodel:
                     min_err = math.floor(err)
                 elif err > max_err:
                     max_err = math.ceil(err)
+            print("    error bound :",min_err,max_err)
             self.error_bound = [min_err, max_err]
 
 

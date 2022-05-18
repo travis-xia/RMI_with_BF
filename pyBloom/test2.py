@@ -14,7 +14,8 @@ def Test_Simple_main():
         data=pd.read_excel(path)
     '''
     '''Randomly generate data from (0,800000)'''
-    data = np.hstack(np.random.randint( ((-1)<<31) ,1<<31, size=150000))
+    data = np.hstack(np.random.randint( ((-1)<<31) ,1<<31, size=50000))
+    #data = np.arange(5000)
     data.sort()
     '''Generate three different model:Traditional bloom filter/pyBloom/RMI
         filter1=BloomFilter(capacity=?,error_rate=?);
@@ -47,30 +48,30 @@ def Test_Simple_main():
         elif (i>>30)&3==3:
             list3 = np.append(list3, i)
     if list0.size != 0:
-        print("0 build")
         model0 = MLmodel(list0)
+        print("0 build", model0.model.coef_, model0.model.intercept_)
     if list1.size != 0:
-        print("1 build")
         model1 = MLmodel(list1)
+        print("1 build", model1.model.coef_, model1.model.intercept_)
     if list2.size != 0:
-        print("2 build")
         model2 = MLmodel(list2)
+        print("2 build", model2.model.coef_, model2.model.intercept_)
     if list3.size != 0:
-        print("3 build")
         model3 = MLmodel(list3)
+        print("3 build", model3.model.coef_, model3.model.intercept_)
 
     start=time.time()
     filter1 = BloomFilter(capacity=200000, error_rate=0.001)
     for i in range(len(data)):
         filter1.add(data[i])
     end=time.time()
-    print("Tranditional model cost:",end-start)
+    print("Building tranditional model cost:",end-start)
 
     start=time.time()
     filter2=Filter(FPR=0.001)
     filter2.Build(data)
     end=time.time()
-    print("Pybloom model cost:", end - start)
+    print("Building pybloom model cost:", end - start)
 
     '''
     start=time.time()
@@ -97,6 +98,7 @@ def Test_Simple_main():
     print(traditionalerr)
     print("traditional cost is ")
     print(end-start)
+    data_test = np.arange(5000)+1>>22
     start=time.time()
     count_suc = 0
     count_fal_bf = 0
@@ -127,8 +129,8 @@ def Test_Simple_main():
                 count_suc += 1
             else:
                 count_fal += 1
-    print("suc:",count_suc," bf fal:",count_fal_bf," fal:",count_fal)
     end=time.time()
+    print("suc:",count_suc," bf fal:",count_fal_bf," fal:",count_fal)
     print("total error is")
     print(newerr)
     print("new cost is ")

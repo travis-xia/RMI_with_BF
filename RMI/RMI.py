@@ -119,7 +119,7 @@ class RMI:
         ppos = int(self.index[1][mm].predict([[key]]))
         return ppos, mm
 
-    @profile
+    #@profile
     def search(self, key):  # model biased search
         start = time.time()
         pos, model = self.predict(key)
@@ -138,7 +138,7 @@ class RMI:
         while lp <= rp:
             if self.data[pos] == key:
                 end = time.time()
-                print("learned NN search time: ", end - start)
+                #print("learned NN search time: ", end - start)
                 return pos
             elif self.data[pos] > key:
                 rp = pos - 1
@@ -146,7 +146,7 @@ class RMI:
                 lp = pos + 1
             pos = int((lp + rp) / 2)
         end = time.time()
-        print("learned NN search time: ", end - start)
+        #print("learned NN search time: ", end - start)
         return False
 
 
@@ -166,7 +166,7 @@ if __name__ == '__main__':
     data = np.hstack((np.random.randint(20000000, size=1000000), np.random.normal(100000, 10, size=1000000),
                       np.random.uniform(1, 10000000, size=1000000), np.random.poisson(100000, size=1000000),
                       np.random.exponential(1000000, size=1000000)))
-    # data = np.random.randint(1, 1000, size=100)
+    data = np.random.randint(1, 10000, size=500)
     data = np.sort(data).reshape(-1)
     file = np.savetxt("data.csv", data, delimiter=",")
     li = RMI()
@@ -174,6 +174,9 @@ if __name__ == '__main__':
     li.train(data)
     end = time.time()
     print(f"Train Time: {end - start}s")
-    li.search(data[10])
-    # for k in data:
-    #     print(li.search(k))
+    # li.search(data[10])
+    start = time.time()
+    for k in data:
+        print(li.search(k))
+    end = time.time()
+    print(f"Search Time: {end - start}s")
