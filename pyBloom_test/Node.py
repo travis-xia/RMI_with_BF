@@ -12,7 +12,7 @@ import numpy as np
 from scipy.stats import norm
 #基础包
 import math
-from memory_profiler import profile
+#from memory_profiler import profile
 
 class node:
     '''定义自己的左右两个bloom filter以及左右子节点'''

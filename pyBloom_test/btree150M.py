@@ -309,7 +309,7 @@ class Item:
 
 # For Test
 def b_tree_main():
-    #tr = tracker.SummaryTracker()
+    # tr = tracker.SummaryTracker()
     print("生成数据")
     tree_size = 1000000
     # data = np.hstack((np.random.randint(100000, size=100)))
@@ -320,7 +320,7 @@ def b_tree_main():
     # file = np.savetxt("E:\whz\LABDATA\data100M.csv", data, delimiter=",")
     # data = pd.read_csv(path)
     data = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
-    data = np.random.choice(data, 1000000)
+    data = np.random.choice(data, 150000000)
     data.sort()
     print("生成B树")
     b = BTree(2)
@@ -362,7 +362,7 @@ def b_tree_main():
     print("25% negtive search time is", endtime - starttime)
     print("suc and fail:", suc, fail)
 
-    data_test=np.hstack(( np.random.randint(((-1) << 30), 1 << 30, size=50000),np.random.choice(data, 50000) ))
+    data_test = np.hstack((np.random.randint(((-1) << 30), 1 << 30, size=50000), np.random.choice(data, 50000)))
     suc = 0
     fail = 0
     starttime = time.time()
@@ -376,7 +376,7 @@ def b_tree_main():
     print("50% negtive search time is", endtime - starttime)
     print("suc and fail:", suc, fail)
 
-    data_test=np.hstack(( np.random.randint(((-1) << 30), 1 << 30, size=75000),np.random.choice(data, 25000) ))
+    data_test = np.hstack((np.random.randint(((-1) << 30), 1 << 30, size=75000), np.random.choice(data, 25000)))
     suc = 0
     fail = 0
     starttime = time.time()
@@ -390,7 +390,7 @@ def b_tree_main():
     print("75% negtive search time is", endtime - starttime)
     print("suc and fail:", suc, fail)
 
-    data_test=np.random.randint(((-1) << 30), 1 << 30, size=100000)
+    data_test = np.random.randint(((-1) << 30), 1 << 30, size=100000)
     suc = 0
     fail = 0
     starttime = time.time()
@@ -403,7 +403,7 @@ def b_tree_main():
     endtime = time.time()
     print("100% negtive search time is", endtime - starttime)
     print("suc and fail:", suc, fail)
-    #tr.print_diff()
+    # tr.print_diff()
 
 
 if __name__ == '__main__':

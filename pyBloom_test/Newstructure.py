@@ -1,4 +1,4 @@
-from pyBloom_test.Node import node
+from Node import node
 
 '''上层的filter结构'''
 class Filter:
