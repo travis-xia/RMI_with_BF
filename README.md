@@ -1,7 +1,8 @@
 # RMI_with_BF
-A useful try
+learned index model with tree-structure bloom filters
 
 ----------------
+带树结构布隆过滤器的学习索引模型
 
 
 主要跑 pybloom_test中的btree.py和test2.py
