@@ -35,26 +35,7 @@ def Test_Simple_main():
     list3 = np.array([])
     list0 = np.array([])
     print("data loaded,ready to separate")
-    # for i in data:  # range(10):
-    #     # if (i & 1) and ((i >> 16) & 1):
-    #     #     list0 = np.append(list0, i)
-    #     # if (i & 1) and not ((i >> 16) & 1):
-    #     #     list1 = np.append(list1, i)
-    #     # elif not (i & 1) and ((i >> 16) & 1):
-    #     #     list2 = np.append(list2, i)
-    #     # else:
-    #     #     list3 = np.append(list3, i)
-    #     if i%10000==0:
-    #         print(i)
-    #     if (i>>30)&3==0:
-    #         list0 = np.append(list0, i)
-    #     elif (i>>30)&3==1:
-    #         list1 = np.append(list1, i)
-    #     elif (i>>30)&3==2:
-    #         list2 = np.append(list2, i)
-    #     elif (i>>30)&3==3:
-    #         list3 = np.append(list3, i)
-    # 对于有序数组，我们可以直接分流
+
     list0 = data[np.where(data < 1 << 30)[0]]
     list1 = data[np.where((data < 2 << 30) & (data >= 1 << 30))[0]]
     list2 = data[np.where((data < 3 << 30) & (data >= 2 << 30))[0]]
@@ -82,7 +63,7 @@ def Test_Simple_main():
     # end=time.time()
     # print("Building tranditional model cost:",end-start)
     start = time.time()
-    filter2 = Filter(FPR=0.001)
+    filter2 = Filter(len(data),FPR=0.001)
     filter2.Build(data)
     end = time.time()
     print("Build pybloom model,time cost:", end - start)
@@ -97,24 +78,8 @@ def Test_Simple_main():
 
     '''Test FPR and search time of each model'''
     # 传统的暂不运行
-    # traditionalerr=0
-    # newerr=0
-    # start=time.time()
-    # #暂不运行
-    # # for i in range(300000):
-    # #     print(i)
-    # #     if((i in data)==True and (i in filter1)==False):
-    # #         traditionalerr+=1
-    # #     elif((i in data)==False and (i in filter1)==True):
-    # #         traditionalerr+=1
-    # #     else:
-    # #         continue
-    # end=time.time()
-    # print("total error is")
-    # print(traditionalerr)
-    # print("traditional cost is ")
-    # print(end-start)
-    print("positive search:")
+
+    print("@positive search:")
     data_test = np.random.choice(data, 100000)
     start = time.time()
     count_suc = 0
@@ -129,7 +94,6 @@ def Test_Simple_main():
         elif flag == 0:
             ret = model0.search(i)
             if ret:
-                # print("      found:",i,ret,list0[ret])
                 count_suc += 1
             else:
                 count_fal += 1
@@ -149,16 +113,11 @@ def Test_Simple_main():
             else:
                 count_fal += 1
     end = time.time()
-    print("suc:", count_suc, " bf fal:", count_fal_bf, " fal:", count_fal)
-    # print("total error is")
-    # print(newerr)
+    print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)#bf的fal也是准确的：我们准确地确认它不在
     print("new cost is ",end - start)
-    print("the correct rate:",count_suc*1.0/(count_suc+count_fal))
-    # print("model mem:",sys.getsizeof(model0))#+sys.getsizeof(model1)+sys.getsizeof(model2)+sys.getsizeof(model3)
-    # print("filter mem:",sys.getsizeof(filter2))
-    #tr.print_diff()
+    print("the correct rate:",(count_fal_bf+count_suc)*1.0/(count_fal_bf+count_suc+count_fal))
 
-    print("25% negative search:")
+    print("@25% negative search:")
     data_test = np.hstack((np.random.randint(((-1) << 20),1<<20,size=25000), np.random.choice(data,75000)))
     start = time.time()
     count_suc = 0
@@ -193,11 +152,11 @@ def Test_Simple_main():
             else:
                 count_fal += 1
     end = time.time()
-    print("suc:", count_suc, " bf fal:", count_fal_bf, " fal:", count_fal)
+    print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)
     print("new cost is ",end - start)
-    print("the correct rate:",count_suc*1.0/(count_suc+count_fal))
+    print("the correct rate:",(count_fal_bf+count_suc)*1.0/(count_fal_bf+count_suc+count_fal))
 
-    print("50% negative search:")
+    print("@50% negative search:")
     data_test = np.hstack((np.random.randint(((-1) << 20),1<<20,size=50000), np.random.choice(data,50000)))
     start = time.time()
     count_suc = 0
@@ -232,11 +191,11 @@ def Test_Simple_main():
             else:
                 count_fal += 1
     end = time.time()
-    print("suc:", count_suc, " bf fal:", count_fal_bf, " fal:", count_fal)
+    print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)
     print("new cost is ",end - start)
-    print("the correct rate:",count_suc*1.0/(count_suc+count_fal))
+    print("the correct rate:",(count_fal_bf+count_suc)*1.0/(count_fal_bf+count_suc+count_fal))
 
-    print("75% negative search:")
+    print("@75% negative search:")
     data_test = np.hstack((np.random.randint(((-1) << 20),1<<20,size=75000), np.random.choice(data,25000)))
     start = time.time()
     count_suc = 0
@@ -271,11 +230,11 @@ def Test_Simple_main():
             else:
                 count_fal += 1
     end = time.time()
-    print("suc:", count_suc, " bf fal:", count_fal_bf, " fal:", count_fal)
+    print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)
     print("new cost is ",end - start)
-    print("the correct rate:",count_suc*1.0/(count_suc+count_fal))
+    print("the correct rate:",(count_fal_bf+count_suc)*1.0/(count_fal_bf+count_suc+count_fal))
 
-    print("100% negative search:")
+    print("@100% negative search:")
     data_test = np.hstack((np.random.randint(((-1) << 20),1<<20,size=100000)))
     start = time.time()
     count_suc = 0
@@ -310,8 +269,10 @@ def Test_Simple_main():
             else:
                 count_fal += 1
     end = time.time()
-    print("suc:", count_suc, " bf fal:", count_fal_bf, " fal:", count_fal)
+    print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)
     print("new cost is ",end - start)
+    print("the correct rate:",(count_fal_bf+count_suc)*1.0/(count_fal_bf+count_suc+count_fal))
+
 if __name__ == '__main__':
     Test_Simple_main();
 
