@@ -1,0 +1,56 @@
+data loaded,ready to separate
+list build,ready to feed models
+this model's data [       265        620       1134 ... 1073732533 1073732754 1073736175]
+    error bound calculating...
+     0
+     100000
+     200000
+     300000
+     400000
+     500000
+     600000
+     700000
+     800000
+    error bound : -54605 133001
+model0 build [0.00085156] 67695.1284723049
+this model's data [1073743219 1073744978 1073746670 ... 2144163863 2144226738 2146812949]
+    error bound calculating...
+     0
+     100000
+    error bound : -14453 59484
+model1 build [0.00017695] -169431.14257943656
+models ready
+  root build
+  leftchd build
+  rightchd build
+    BF inserting nums:
+      0
+      100000
+      200000
+      300000
+      400000
+      500000
+      600000
+      700000
+      800000
+      900000
+Build pybloom model,time cost: 19.717846393585205
+@positive search:
+suc: 100000  bf not in: 0  fal: 0
+new cost is  4.6331000328063965
+@25% negative search:
+suc: 75016  bf not in: 24967  fal: 17
+new cost is  3.7371103763580322
+the correct rate: 0.99983
+@50% negative search:
+suc: 50025  bf not in: 49949  fal: 26
+new cost is  2.5895140171051025
+the correct rate: 0.99974
+@75% negative search:
+suc: 25035  bf not in: 74931  fal: 34
+new cost is  1.4484210014343262
+the correct rate: 0.99966
+@100% negative search:
+suc: 62  bf not in: 99893  fal: 45
+new cost is  0.45811009407043457
+the correct rate: 0.99955

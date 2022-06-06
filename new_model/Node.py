@@ -83,7 +83,7 @@ class MLmodel:
                 elif err > max_err:
                     max_err = math.ceil(err)
             print("    error bound :",min_err,max_err)
-            self.error_bound = [10*min_err, 10*max_err]
+            self.error_bound = [5*min_err, 5*max_err]
 
 
     #@profile
@@ -99,9 +99,6 @@ class MLmodel:
             return pos
         lbound = pos+self.error_bound[0]
         ubound = pos+self.error_bound[1]
-        #print(lbound,ubound)
-        #for i in range(lbound,ubound):
-        # 检查预测的位置是否超过范围
         if pos < 0:
             lbound = pos = 0
         if pos > self.data_size - 1:

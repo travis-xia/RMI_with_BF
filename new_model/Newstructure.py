@@ -18,10 +18,10 @@ class Filter:
         temp=self.root
         result=0
         '''遍历这棵树'''
+
         for i in range(self.level):
             if temp.Contains(num):
-                bias = num >> (32-i-1)
-                flag = bias & 1
+                flag =( num >> (32-i-1)) & 1
                 if flag==1:
                     temp=temp.lefchld
                     result=result*10+1
@@ -29,11 +29,8 @@ class Filter:
                     temp=temp.rigchld
                     result=result*10
             else:
-                # return False
                 return -1
 
-        ##此处改为合并学习model
-        # return True
         return result
     def Add(self,num):
         temp = self.root

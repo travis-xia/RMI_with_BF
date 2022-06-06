@@ -107,18 +107,19 @@ def Test_Simple_main():
                 count_suc += 1
             else:
                 count_fal += 1
-        elif flag==11:
+        elif flag == 11:
             if model3.search(i):
                 count_suc += 1
             else:
                 count_fal += 1
     end = time.time()
-    print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)#bf的fal也是准确的：我们准确地确认它不在
-    print("new cost is ",end - start)
-    print("the correct rate:",(count_fal_bf+count_suc)*1.0/(count_fal_bf+count_suc+count_fal))
+    print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)  # bf的fal也是准确的：我们准确地确认它不在
+    print("new cost is ", end - start)
+    # print("the correct rate:",(count_fal_bf+count_suc)*1.0/(count_fal_bf+count_suc+count_fal))
 
     print("@25% negative search:")
-    data_test = np.hstack((np.random.randint(((-1) << 20),1<<20,size=25000), np.random.choice(data,75000)))
+    data_test = np.random.randint(((-1) << 20), 1 << 20, size=25000)
+    data_test_ = np.random.choice(data, 75000)
     start = time.time()
     count_suc = 0
     count_fal_bf = 0
@@ -146,18 +147,47 @@ def Test_Simple_main():
                 count_suc += 1
             else:
                 count_fal += 1
-        elif flag==11:
+        elif flag == 11:
+            if model3.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
+    for i in data_test_:
+        # print(filter2.Contains(i))
+        flag = filter2.Contains(i)
+        if flag == -1:
+            # print("False")
+            count_fal_bf += 1
+        elif flag == 0:
+            ret = model0.search(i)
+            if ret:
+                # print("      found:",i,ret,list0[ret])
+                count_suc += 1
+            else:
+                count_fal += 1
+        elif flag == 1:
+            if model1.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
+        elif flag == 10:
+            if model2.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
+        elif flag == 11:
             if model3.search(i):
                 count_suc += 1
             else:
                 count_fal += 1
     end = time.time()
     print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)
-    print("new cost is ",end - start)
-    print("the correct rate:",(count_fal_bf+count_suc)*1.0/(count_fal_bf+count_suc+count_fal))
+    print("new cost is ", end - start)
+    print("the correct rate:", (count_fal_bf + count_suc) * 1.0 / (count_fal_bf + count_suc + count_fal))
 
     print("@50% negative search:")
-    data_test = np.hstack((np.random.randint(((-1) << 20),1<<20,size=50000), np.random.choice(data,50000)))
+    data_test = np.random.randint(((-1) << 20), 1 << 20, size=50000)
+    data_test_ = np.random.choice(data, 50000)
     start = time.time()
     count_suc = 0
     count_fal_bf = 0
@@ -185,18 +215,47 @@ def Test_Simple_main():
                 count_suc += 1
             else:
                 count_fal += 1
-        elif flag==11:
+        elif flag == 11:
+            if model3.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
+    for i in data_test_:
+        # print(filter2.Contains(i))
+        flag = filter2.Contains(i)
+        if flag == -1:
+            # print("False")
+            count_fal_bf += 1
+        elif flag == 0:
+            ret = model0.search(i)
+            if ret:
+                # print("      found:",i,ret,list0[ret])
+                count_suc += 1
+            else:
+                count_fal += 1
+        elif flag == 1:
+            if model1.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
+        elif flag == 10:
+            if model2.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
+        elif flag == 11:
             if model3.search(i):
                 count_suc += 1
             else:
                 count_fal += 1
     end = time.time()
     print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)
-    print("new cost is ",end - start)
-    print("the correct rate:",(count_fal_bf+count_suc)*1.0/(count_fal_bf+count_suc+count_fal))
+    print("new cost is ", end - start)
+    print("the correct rate:", (count_fal_bf + count_suc) * 1.0 / (count_fal_bf + count_suc + count_fal))
 
     print("@75% negative search:")
-    data_test = np.hstack((np.random.randint(((-1) << 20),1<<20,size=75000), np.random.choice(data,25000)))
+    data_test = np.random.randint(((-1) << 20), 1 << 20, size=75000)
+    data_test_ = np.random.choice(data, 25000)
     start = time.time()
     count_suc = 0
     count_fal_bf = 0
@@ -224,18 +283,46 @@ def Test_Simple_main():
                 count_suc += 1
             else:
                 count_fal += 1
-        elif flag==11:
+        elif flag == 11:
+            if model3.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
+    for i in data_test_:
+        # print(filter2.Contains(i))
+        flag = filter2.Contains(i)
+        if flag == -1:
+            # print("False")
+            count_fal_bf += 1
+        elif flag == 0:
+            ret = model0.search(i)
+            if ret:
+                # print("      found:",i,ret,list0[ret])
+                count_suc += 1
+            else:
+                count_fal += 1
+        elif flag == 1:
+            if model1.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
+        elif flag == 10:
+            if model2.search(i):
+                count_suc += 1
+            else:
+                count_fal += 1
+        elif flag == 11:
             if model3.search(i):
                 count_suc += 1
             else:
                 count_fal += 1
     end = time.time()
     print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)
-    print("new cost is ",end - start)
-    print("the correct rate:",(count_fal_bf+count_suc)*1.0/(count_fal_bf+count_suc+count_fal))
+    print("new cost is ", end - start)
+    print("the correct rate:", (count_fal_bf + count_suc) * 1.0 / (count_fal_bf + count_suc + count_fal))
 
     print("@100% negative search:")
-    data_test = np.hstack((np.random.randint(((-1) << 20),1<<20,size=100000)))
+    data_test = np.random.randint(((-1) << 20), 1 << 20, size=100000)
     start = time.time()
     count_suc = 0
     count_fal_bf = 0
@@ -263,15 +350,16 @@ def Test_Simple_main():
                 count_suc += 1
             else:
                 count_fal += 1
-        elif flag==11:
+        elif flag == 11:
             if model3.search(i):
                 count_suc += 1
             else:
                 count_fal += 1
     end = time.time()
     print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)
-    print("new cost is ",end - start)
-    print("the correct rate:",(count_fal_bf+count_suc)*1.0/(count_fal_bf+count_suc+count_fal))
+    print("new cost is ", end - start)
+    print("the correct rate:", (count_fal_bf + count_suc) * 1.0 / (count_fal_bf + count_suc + count_fal))
+
 
 if __name__ == '__main__':
     Test_Simple_main();

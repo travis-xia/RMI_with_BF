@@ -1,0 +1,41 @@
+生成数据
+生成B树
+插入数据
+0
+100000
+200000
+300000
+400000
+500000
+600000
+700000
+800000
+900000
+building time is 35.952234745025635
+positive search time is 2.4508798122406006
+suc and fail: 100000 0
+25% negtive search time is 2.4973158836364746
+suc and fail: 100000 0
+50% negtive search time is 2.4117677211761475
+suc and fail: 100000 0
+75% negtive search time is 2.3663535118103027
+suc and fail: 100000 0
+100% negtive search time is 2.2249765396118164
+suc and fail: 100000 0
+                       types |   # objects |   total size
+============================ | =========== | ============
+                        dict |     1989929 |    237.37 MB
+                        list |     1997423 |    160.04 MB
+               __main__.Item |      994968 |     45.55 MB
+          __main__.BTreeNode |      994955 |     45.55 MB
+                         int |      996570 |     26.61 MB
+                         str |        7537 |    538.95 KB
+           method_descriptor |          13 |    936     B
+                     weakref |           4 |    288     B
+                         set |           1 |    216     B
+       function (store_info) |           1 |    136     B
+                       bytes |           3 |    133     B
+                        code |          -4 |     98     B
+  builtin_function_or_method |           1 |     72     B
+          wrapper_descriptor |           1 |     72     B
+                      method |           1 |     64     B
