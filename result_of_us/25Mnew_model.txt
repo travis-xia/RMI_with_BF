@@ -1,6 +1,6 @@
 data loaded,ready to separate
 list build,ready to feed models
-this model's data [         0         21         47 ... 1073741199 1073741316 1073741354]
+this model's data [        51        159        307 ... 1073741327 1073741356 1073741669]
     error bound calculating...
      0
      100000
@@ -215,9 +215,9 @@ this model's data [         0         21         47 ... 1073741199 1073741316 10
      21000000
      21100000
      21200000
-    error bound : -1356384 3308113
-model0 build [0.02128187] 1688923.5954744462
-this model's data [1073742348 1073742372 1073742460 ... 2147098108 2147294354 2147398273]
+    error bound : -1356425 3307788
+model0 build [0.02128182] 1688951.1156439073
+this model's data [1073742225 1073742303 1073742348 ... 2146991974 2147263342 2147430833]
     error bound calculating...
      0
      100000
@@ -257,8 +257,8 @@ this model's data [1073742348 1073742372 1073742460 ... 2147098108 2147294354 21
      3500000
      3600000
      3700000
-    error bound : -361087 1497360
-model1 build [0.00442671] -4240587.961040654
+    error bound : -361481 1493805
+model1 build [0.00442213] -4234749.923561532
 models ready
   root build
   leftchd build
@@ -514,23 +514,23 @@ models ready
       24700000
       24800000
       24900000
-Build pybloom model,time cost: 653.4814364910126
+Build pybloom model,time cost: 571.7033658027649
 @positive search:
 suc: 100000  bf not in: 0  fal: 0
-new cost is  6.581000566482544
+new cost is  5.970656394958496
 @25% negative search:
-suc: 75349  bf not in: 24645  fal: 6
-new cost is  5.0977842807769775
-the correct rate: 0.99994
+suc: 75323  bf not in: 24667  fal: 10
+new cost is  4.341186285018921
+the correct rate: 0.9999
 @50% negative search:
-suc: 50620  bf not in: 49371  fal: 9
-new cost is  3.8638997077941895
-the correct rate: 0.99991
-@75% negative search:
-suc: 25951  bf not in: 74032  fal: 17
-new cost is  2.6128454208374023
+suc: 50643  bf not in: 49340  fal: 17
+new cost is  3.451045274734497
 the correct rate: 0.99983
+@75% negative search:
+suc: 25953  bf not in: 74028  fal: 19
+new cost is  2.2382395267486572
+the correct rate: 0.99981
 @100% negative search:
-suc: 1270  bf not in: 98707  fal: 23
-new cost is  0.971348762512207
-the correct rate: 0.99977
+suc: 1223  bf not in: 98751  fal: 26
+new cost is  0.6615221500396729
+the correct rate: 0.99974
