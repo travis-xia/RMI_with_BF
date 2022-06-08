@@ -74,8 +74,8 @@ plt.clf()
 x_count = [1,2,3,4,5]
 x_label = ['1M','25M','75M','150M','200M']
 x_label = ['positive','25%','50%','75%','100%']
-y1 = np.around(np.array(btree[3])*10,3)
-y2 = np.around(np.array(new_model[3])*10,3)
+y1 = np.around(np.array(btree[4])*10,3)
+y2 = np.around(np.array(new_model[4])*10,3)
 plt.margins(0) # 控制两边是否有边界
 plt.plot(x_label,y1,label="btree")
 for a, b in zip(x_label, y1):
