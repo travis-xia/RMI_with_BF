@@ -331,11 +331,20 @@ def b_tree_main():
     print("building time is", endtime - starttime)
 
 
-    data_test = np.random.choice(data, 1)
+    data_test = np.random.choice(data, 100)
     del data
+    suc = 0
+    fail = 0
+    starttime = time.time()
     for i in data_test:
-        b.predict(i)
-        break
+        flag = b.predict(i)
+        if flag == False:
+            fail += 1
+        else:
+            suc += 1
+    endtime = time.time()
+    print("positive search time is", endtime - starttime)
+    print("suc and fail:", suc, fail)
 
 
 if __name__ == '__main__':
