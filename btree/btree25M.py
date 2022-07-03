@@ -311,16 +311,10 @@ class Item:
 def b_tree_main():
     # tr = tracker.SummaryTracker()
     print("生成数据")
-    tree_size = 1000000
-    # data = np.hstack((np.random.randint(100000, size=100)))
-    # data = np.hstack((np.random.randint(800000, size=800000), np.random.normal(80000, 10, size=800000)))
-    # data = np.hstack(np.random.randint(((-1) << 31), 1 << 31, size=3000000))
-    # data = np.sort(data).reshape(-1)
+    tree_size = 25000000
     data = np.arange(tree_size)
-    # file = np.savetxt("E:\whz\LABDATA\data100M.csv", data, delimiter=",")
-    # data = pd.read_csv(path)
     data = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
-    data = np.random.choice(data, 25000000)
+    data = np.random.choice(data, tree_size)
     data.sort()
     print("生成B树")
     b = BTree(2)

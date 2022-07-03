@@ -320,7 +320,7 @@ def b_tree_main():
     # file = np.savetxt("E:\whz\LABDATA\data100M.csv", data, delimiter=",")
     # data = pd.read_csv(path)
     data = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
-    data = np.random.choice(data, 1000000)
+    data = np.random.choice(data, tree_size)
     data.sort()
     print("生成B树")
     b = BTree(2)

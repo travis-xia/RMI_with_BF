@@ -5,7 +5,7 @@ import random
 import time
 from pympler import tracker
 
-# from memory_profiler import profile
+from memory_profiler import profile
 
 
 class BTreeNode:
@@ -116,6 +116,7 @@ class BTree:
     def search(self, an_item):
         return self.rootNode.search(self, an_item)
 
+    @profile(precision=4)
     def predict(self, key):
         start = time.time()
         search_result = self.search(Item(key, 0))
@@ -309,100 +310,33 @@ class Item:
 
 # For Test
 def b_tree_main():
-    # tr = tracker.SummaryTracker()
     print("生成数据")
-    tree_size = 200000000
-    # data = np.hstack((np.random.randint(100000, size=100)))
-    # data = np.hstack((np.random.randint(800000, size=800000), np.random.normal(80000, 10, size=800000)))
-    # data = np.hstack(np.random.randint(((-1) << 31), 1 << 31, size=3000000))
-    # data = np.sort(data).reshape(-1)
-    data = np.arange(tree_size)
-    # file = np.savetxt("E:\whz\LABDATA\data100M.csv", data, delimiter=",")
-    # data = pd.read_csv(path)
-    data = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
-    data = np.random.choice(data, tree_size)
+    tree_size = 75000000
+    data_from = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
+    data = np.random.choice(data_from, tree_size)
+    del data_from
     data.sort()
     print("生成B树")
     b = BTree(2)
     print("插入数据")
+
+    # tr = tracker.SummaryTracker()
     starttime = time.time()
     for i in range(data.size):
         if i % 100000 == 0:
             print(i)
-        # b.insert(Item(data.iloc[i, 0], data.iloc[i, 1]))
         b.insert(Item(data[i], i))
     endtime = time.time()
-    print("building time is", endtime - starttime)
-    data_test = np.random.choice(data, 100000)
-    suc = 0
-    fail = 0
-    starttime = time.time()
-    for i in data_test:
-        flag = b.predict(i)
-        if flag == False:
-            fail += 1
-        else:
-            suc += 1
-    endtime = time.time()
-    print("positive search time is", endtime - starttime)
-    print("suc and fail:", suc, fail)
-
-    data_test = np.hstack((np.random.randint(((-1) << 30), 1 << 30, size=25000), np.random.choice(data, 75000)))
-    suc = 0
-    fail = 0
-    starttime = time.time()
-    for i in data_test:
-        flag = b.predict(i)
-        if flag == False:
-            fail += 1
-        else:
-            suc += 1
-    endtime = time.time()
-    print("25% negtive search time is", endtime - starttime)
-    print("suc and fail:", suc, fail)
-
-    data_test = np.hstack((np.random.randint(((-1) << 30), 1 << 30, size=50000), np.random.choice(data, 50000)))
-    suc = 0
-    fail = 0
-    starttime = time.time()
-    for i in data_test:
-        flag = b.predict(i)
-        if flag == False:
-            fail += 1
-        else:
-            suc += 1
-    endtime = time.time()
-    print("50% negtive search time is", endtime - starttime)
-    print("suc and fail:", suc, fail)
-
-    data_test = np.hstack((np.random.randint(((-1) << 30), 1 << 30, size=75000), np.random.choice(data, 25000)))
-    suc = 0
-    fail = 0
-    starttime = time.time()
-    for i in data_test:
-        flag = b.predict(i)
-        if flag == False:
-            fail += 1
-        else:
-            suc += 1
-    endtime = time.time()
-    print("75% negtive search time is", endtime - starttime)
-    print("suc and fail:", suc, fail)
-
-    data_test = np.random.randint(((-1) << 30), 1 << 30, size=100000)
-    suc = 0
-    fail = 0
-    starttime = time.time()
-    for i in data_test:
-        flag = b.predict(i)
-        if flag == False:
-            fail += 1
-        else:
-            suc += 1
-    endtime = time.time()
-    print("100% negtive search time is", endtime - starttime)
-    print("suc and fail:", suc, fail)
     # tr.print_diff()
+    print("building time is", endtime - starttime)
+
+
+    data_test = np.random.choice(data, 1)
+    del data
+    for i in data_test:
+        b.predict(i)
+        break
+
 
 if __name__ == '__main__':
     b_tree_main()
