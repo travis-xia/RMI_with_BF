@@ -51,6 +51,7 @@ class BTreeNode:
 
 class BTree:
     # 初始化时只有根节点。 nodes为节点的map,映射filename:node freeindex:maybe是余量？
+    @profile(precision=4)
     def __init__(self, degree=2, nodes=None, root_index=1, free_index=2):
         if nodes is None:
             nodes = {}
@@ -321,17 +322,12 @@ def b_tree_main():
     print("插入数据")
 
     # tr = tracker.SummaryTracker()
-    starttime = time.time()
     for i in range(data.size):
-        if i % 100000 == 0:
-            print(i)
         b.insert(Item(data[i], i))
-    endtime = time.time()
     # tr.print_diff()
-    print("building time is", endtime - starttime)
 
 
-    data_test = np.random.choice(data, 100)
+    data_test = [1]
     del data
     suc = 0
     fail = 0

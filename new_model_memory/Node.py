@@ -12,7 +12,7 @@ import numpy as np
 from scipy.stats import norm
 #基础包
 import math
-#from memory_profiler import profile
+from memory_profiler import profile
 
 class node:
     '''定义自己的左右两个bloom filter以及左右子节点'''
@@ -46,6 +46,7 @@ class node:
 
 
 class MLmodel:
+    # @profile(precision=5)
     def __init__(self,data,model_flag=0):
         self.model_flag = model_flag #0为线性模型，1为DNN
         if self.model_flag==0:
@@ -56,9 +57,8 @@ class MLmodel:
         self.data_size = None
         self.error_bound = []
         self.train(data)
-
+    @profile(precision=5)
     def train(self,x):##nparray形式传入
-        #print(x)
         if self.model_flag == 0:
             self.data = x
             self.data_size = N = len(x)
@@ -66,24 +66,20 @@ class MLmodel:
             x = x.reshape(-1,1)
             self.model.fit(x,label)
             min_err = max_err = average_error = 0
-            #print(N,int(np.sqrt(N)))
-            # randomChoice = np.random.randint(0,N,int(np.sqrt(N)))
-            # randomChoice.sort()
-            # for i in randomChoice:
             print('this model\'s data',self.data)
             print("    error bound calculating...")
             for i in range(N):
-                if i%100000==0 :
+                if i%300000==0 :
                     print("    ",i)
                 pos = int( self.model.predict([ x[i] ]) )#x[i]已经是列表了
-                err = pos - label[i]
+                err = i-pos
                 average_error += abs(err) /N
                 if err < min_err:
                     min_err = math.floor(err)
                 elif err > max_err:
                     max_err = math.ceil(err)
             print("    error bound :",min_err,max_err)
-            self.error_bound = [5*min_err, 5*max_err]
+            self.error_bound = [min_err, max_err]
 
 
     #@profile

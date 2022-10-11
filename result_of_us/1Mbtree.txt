@@ -11,14 +11,14 @@
 700000
 800000
 900000
-building time is 40.19897198677063
-positive search time is 2.4867658615112305
+building time is 36.94331336021423
+positive search time is 2.6737821102142334
 suc and fail: 100000 0
-25% negtive search time is 2.559231758117676
+25% negtive search time is 2.678514003753662
 suc and fail: 100000 0
-50% negtive search time is 2.49722957611084
+50% negtive search time is 2.5793087482452393
+suc and fail: 99999 1
+75% negtive search time is 2.515442132949829
 suc and fail: 100000 0
-75% negtive search time is 2.5446174144744873
-suc and fail: 100000 0
-100% negtive search time is 2.5173206329345703
+100% negtive search time is 2.430807590484619
 suc and fail: 100000 0

@@ -1,0 +1,53 @@
+data loaded,ready to separate
+length: [576538, 273400, 126319, 23743]
+list build,ready to feed models
+this model's data [      159       390      2573 ... 536869123 536869618 536870424]
+    error bound calculating...
+     0
+     100000
+     200000
+     300000
+     400000
+     500000
+    error bound : -23128 6857
+average error: 0.8006885191150236
+model0 build [0.0011042] 6851.299191840459
+this model's data [ 536871473  536871535  536875940 ... 1073732132 1073734770 1073739171]
+    error bound calculating...
+     0
+     100000
+     200000
+    error bound : -19989 9976
+average error: 2.7315470096950265
+model1 build [0.00051268] -257093.52394425584
+this model's data [1073756931 1073769480 1073771572 ... 1610600132 1610601165 1610609340]
+    error bound calculating...
+     0
+     100000
+    error bound : -12143 4329
+average error: 2.5397421304431558
+model2 build [0.00024664] -258773.6095752684
+[-4.41946975e-06  1.27272294e+00] 3943.460344597309
+this model's data [1610620468 1610620631 1610620898 ... 2144236360 2146064868 2146319609]
+    error bound calculating...
+     0
+    error bound : -683 3174
+average error: 1.6607056900030406
+model3 build [-4.41946975e-06  1.27272294e+00] 3943.460344597309
+models ready
+Build pybloom model,time cost: 12.339345693588257
+@positive search:
+suc: 100000  bf not in: 0  fal: 0
+new cost is  2.7088754177093506
+@25% negative search:
+suc: 75025  bf not in: 24958  fal: 17
+new cost is  2.119218349456787
+@50% negative search:
+suc: 50068  bf not in: 49884  fal: 48
+new cost is  1.541771650314331
+@75% negative search:
+suc: 25101  bf not in: 74835  fal: 64
+new cost is  0.9559693336486816
+@100% negative search:
+suc: 126  bf not in: 99795  fal: 79
+new cost is  0.3732757568359375

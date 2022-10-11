@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from Node import node
 
 '''上层的filter结构'''
@@ -24,10 +25,10 @@ class Filter:
                 flag =( num >> (32-i-1)) & 1
                 if flag==1:
                     temp=temp.lefchld
-                    result=result*10+1
+                    result=result*2+1
                 else:
                     temp=temp.rigchld
-                    result=result*10
+                    result=result*2
             else:
                 return -1
 

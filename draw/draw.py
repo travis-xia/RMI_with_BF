@@ -19,36 +19,36 @@ correct_rate_150M = [1,1,1,.99999,1]
 correct_rate_200M = [1,1,1,1,1]
 
 
-#btree和new_model的 准确率-负键占比图
-plt.clf()
-plt.figure(num=1, figsize=(8, 5))#,facecolor='#eeeeff')
-x_label = ['positive','25%','50%','75%','100%']
-plt.margins(0) # 控制两边是否有边界
-plt.plot(x_label,correct_rate_1M,label="correct_rate_1M")
-for a, b in zip(x_label, correct_rate_1M):
-    plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
-plt.plot(x_label,correct_rate_25M,label="correct_rate_25M")
-for a, b in zip(x_label, correct_rate_25M):
-    plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
-plt.plot(x_label,correct_rate_75M,label="correct_rate_75M")
-for a, b in zip(x_label, correct_rate_75M):
-    plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
-plt.plot(x_label,correct_rate_150M,label="correct_rate_150M")
-for a, b in zip(x_label, correct_rate_150M):
-    plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
-plt.plot(x_label,correct_rate_200M,label="correct_rate_200M")
-for a, b in zip(x_label, correct_rate_200M):
-    plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
-plt.xlabel("pencentage of negative keys(%)")
-plt.ylabel("accuracy(%)")
-#plt.ylim(0,100)
-plt.legend()
-#plt.show()
-plt.savefig('accuracy_negative.jpg', format='jpg', dpi=1000)
+# #btree和new_model的 准确率-负键占比图
+# plt.clf()
+# plt.figure(num=1, figsize=(8, 5))#,facecolor='#eeeeff')
+# x_label = ['positive','25%','50%','75%','100%']
+# plt.margins(0) # 控制两边是否有边界
+# plt.plot(x_label,correct_rate_1M,label="correct_rate_1M")
+# for a, b in zip(x_label, correct_rate_1M):
+#     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+# plt.plot(x_label,correct_rate_25M,label="correct_rate_25M")
+# for a, b in zip(x_label, correct_rate_25M):
+#     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+# plt.plot(x_label,correct_rate_75M,label="correct_rate_75M")
+# for a, b in zip(x_label, correct_rate_75M):
+#     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+# plt.plot(x_label,correct_rate_150M,label="correct_rate_150M")
+# for a, b in zip(x_label, correct_rate_150M):
+#     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+# plt.plot(x_label,correct_rate_200M,label="correct_rate_200M")
+# for a, b in zip(x_label, correct_rate_200M):
+#     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+# plt.xlabel("pencentage of negative keys(%)")
+# plt.ylabel("accuracy(%)")
+# #plt.ylim(0,100)
+# plt.legend()
+# #plt.show()
+# plt.savefig('accuracy_negative.jpg', format='jpg', dpi=1000)
 
 #btree和new_model的 效率-数据量图(25%negative)
 plt.clf()
-x_label = ['1M','25M','75M','150M','200M']
+x_label = [1,25,75,150,200]
 y1 =np.array([])
 for i in range(len(btree)):
     y1 = np.append(y1,np.around(btree[i][1]*10,3))
@@ -69,24 +69,24 @@ plt.legend()
 #plt.show()
 plt.savefig('speed_size.jpg', format='jpg', dpi=1000)
 
-#btree和new_model的 效率-负键占比图
-plt.clf()
-x_count = [1,2,3,4,5]
-x_label = ['1M','25M','75M','150M','200M']
-x_label = ['positive','25%','50%','75%','100%']
-y1 = np.around(np.array(btree[4])*10,3)
-y2 = np.around(np.array(new_model[4])*10,3)
-plt.margins(0) # 控制两边是否有边界
-plt.plot(x_label,y1,label="btree")
-for a, b in zip(x_label, y1):
-    plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
-plt.plot(x_label,y2,label="new_model")
-for a, b in zip(x_label, y2):
-    plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
-plt.xlabel("pencentage of negative keys(%)")
-plt.ylabel("average time_cost of one search(μs)")
-plt.ylim(0,100)
-plt.legend()
-#plt.show()
-plt.savefig('speed_negative.jpg', format='jpg', dpi=1000)
+# #btree和new_model的 效率-负键占比图
+# plt.clf()
+# x_count = [1,2,3,4,5]
+# x_label = ['1M','25M','75M','150M','200M']
+# x_label = ['positive','25%','50%','75%','100%']
+# y1 = np.around(np.array(btree[4])*10,3)
+# y2 = np.around(np.array(new_model[4])*10,3)
+# plt.margins(0) # 控制两边是否有边界
+# plt.plot(x_label,y1,label="btree")
+# for a, b in zip(x_label, y1):
+#     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+# plt.plot(x_label,y2,label="new_model")
+# for a, b in zip(x_label, y2):
+#     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+# plt.xlabel("pencentage of negative keys(%)")
+# plt.ylabel("average time_cost of one search(μs)")
+# plt.ylim(0,100)
+# plt.legend()
+# #plt.show()
+# plt.savefig('speed_negative.jpg', format='jpg', dpi=1000)
 

@@ -5,10 +5,10 @@
 '''
 
 #组件包
-from BloomFilter import BloomFilter
+from Bloomfilter.BloomFilter import BloomFilter
 #科学包
 #from sklearn.linear_model import LinearRegression
-from model_lib import LinearRegression,PolyRegression
+from model_lib import LinearRegression
 import numpy as np
 from scipy.stats import norm
 #基础包
@@ -23,7 +23,6 @@ class node:
         self.rightfilter=BloomFilter(rigcap,rigerr)
         self.lefchld=None
         self.rigchld=None
-        # self.BFs = [self.rightfilter,self.leftfilter]
     '''提供查询数字是否存在的服务'''
     def Contains(self,num):
         # bias=num>>((self.level-1)<<4)
@@ -31,7 +30,6 @@ class node:
         flag=bias & 1
         # mask = ~((-1)<<(16+((self.level-1)<<4)))
         # temp= num & mask
-        # return num in self.BFs[flag]
         if flag==1:
             # return temp in self.leftfilter
             return num in self.leftfilter
@@ -50,11 +48,11 @@ class node:
 
 class MLmodel:
     def __init__(self,data,model_flag=0):
-        self.model_flag = model_flag #0为线性模型，1为多项式回归，2为DNN
+        self.model_flag = model_flag #0为线性模型，1为DNN
         if self.model_flag==0:
             self.model = LinearRegression()
         else:
-            self.model = PolyRegression()
+            self.model = None
         self.data = None
         self.data_size = None
         self.error_bound = []
@@ -62,17 +60,13 @@ class MLmodel:
 
     def train(self,x):##nparray形式传入
         #print(x)
-        if self.model_flag == 0 or 1:
+        if self.model_flag == 0:
             self.data = x
             self.data_size = N = len(x)
             label = np.arange(N)
             x = x.reshape(-1,1)
             self.model.fit(x,label)
             min_err = max_err = average_error = 0
-            #print(N,int(np.sqrt(N)))
-            # randomChoice = np.random.randint(0,N,int(np.sqrt(N)))
-            # randomChoice.sort()
-            # for i in randomChoice:
             print('this model\'s data',self.data)
             print("    error bound calculating...")
             for i in range(N):
@@ -86,25 +80,27 @@ class MLmodel:
                 elif err > max_err:
                     max_err = math.ceil(err)
             print("    error bound :",min_err,max_err)
-            print("average error:",1.0*average_error / self.data_size * 100)
             self.error_bound = [min_err, max_err]
 
 
     #@profile
     def search(self,key):
         #print("searching for ",key)
-        a = self.model.predict([[key]])
-        # if np.isnan(a):
-        #     return False
-        pos = int(a)
+        pos = int(self.model.predict([[key]]))
         if pos < 0:
             lbound = pos = 0
         if pos > self.data_size - 1:
             ubound = pos = self.data_size - 1
+
         if self.data[pos] == key :
             return pos
         lbound = pos+self.error_bound[0]
         ubound = pos+self.error_bound[1]
+        if pos < 0:
+            lbound = pos = 0
+        if pos > self.data_size - 1:
+            ubound = pos = self.data_size - 1
+
         if lbound < 0:
             lbound = 0
         if ubound > self.data_size - 1:

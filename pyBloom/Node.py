@@ -69,7 +69,7 @@ class MLmodel:
             min_err = max_err = average_error = 0
             for i in range(N):
                 pos = int( self.model.predict([ x[i] ]) )#x[i]已经是列表了
-                err = pos - label[i]
+                err = i-pos
                 average_error += abs(err) /N
                 if err < min_err:
                     min_err = math.floor(err)

@@ -49,7 +49,7 @@ class RMI:
                 model.add(Dense(1))
                 #sgd = keras.optimizers.SGD(lr=0.000001)  # lr:学习率暂定
                 model.compile(loss="mse", optimizer="sgd", metrics=["mse"])
-                self.index.append(model)
+                self.index.append(model)#传递的是索引，不会传整个模型
                 print(model)
                 # 如果固定每个模型处理的块大小，需计算下一层模型的数量
                 # x = np.arange(min(self.data), max(self.data), 0.1)
@@ -82,6 +82,7 @@ class RMI:
                 sub_data = [[] for _ in range(m)]
                 sub_y = [[] for _ in range(m)]
                 for i in range(self.N):
+                    #按比例分配到四个下级机器学习模型之中
                     mm = int(self.index[0].predict([[norm_data[i]]]) * m / self.N)
                     if mm < 0:
                         mm = 0
@@ -169,12 +170,15 @@ if __name__ == '__main__':
     data = np.random.randint(1, 10000, size=500)
     data = np.sort(data).reshape(-1)
     file = np.savetxt("data.csv", data, delimiter=",")
+    #BUILD,这个会调用self.build()
     li = RMI()
+    #TRAIN
     start = time.time()
     li.train(data)
     end = time.time()
     print(f"Train Time: {end - start}s")
     # li.search(data[10])
+    #.search()实现所有功能
     start = time.time()
     for k in data:
         print(li.search(k))

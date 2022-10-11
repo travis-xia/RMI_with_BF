@@ -77,7 +77,7 @@ class MLmodel:
                 if i%100000==0 :
                     print(i)
                 pos = int( self.model.predict([ x[i] ]) )#x[i]已经是列表了
-                err = pos - label[i]
+                err = i-pos
                 average_error += abs(err) /N
                 if err < min_err:
                     min_err = math.floor(err)

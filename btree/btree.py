@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import pandas as pd
 import numpy as np
 import csv
@@ -9,7 +10,7 @@ from pympler import tracker
 
 
 class BTreeNode:
-    # degree:一个节点能容纳的字段数 initial
+    # degree: initial
     def __init__(self, degree=2, number_of_keys=0, is_leaf=True, items=None, children=None, index=None):
         self.isLeaf = is_leaf
         self.numberOfKeys = number_of_keys
