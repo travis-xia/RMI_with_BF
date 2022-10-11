@@ -92,11 +92,13 @@ class RmiModel:
             self.model_index[2][i].fit(np.array(subsub_data[i]),np.array(subsub_y[i]))
 
 
-        min_err = max_err = [0,0,0,0]
+        min_err = [0,0,0,0]
+        max_err = [0,0,0,0]
         for t in range(data.size):
             if t % 100000 == 0:
                 print("    ", t)
             ppos, mmm = self.predict(data[t])
+            # print(data[t],t,ppos,mmm)
             err = t - ppos
             self.average_error += abs(err)
             if err < min_err[mmm]:
@@ -107,6 +109,7 @@ class RmiModel:
         print("average error:", self.average_error * 1.0 / self.data_size)
         for i in range(4):
             self.error_bound.append([min_err[i], max_err[i]])
+        print(self.error_bound)
 
     def search(self,key):
         pos, model_index = self.predict(key)
@@ -144,7 +147,7 @@ class RmiModel:
             mmm = 0
         elif mmm > 2 - 1:
             mmm = 2 - 1
-
+        mmm = mmm+2*mm
         pos = int(self.model_index[2][mmm].predict([[key]]))
         return pos, mmm
 
@@ -155,7 +158,7 @@ def Test_Simple_main():
     data.sort()
     data_choice = np.random.choice(data, 1000000)
     data_choice.sort()
-    # data_choice = np.arange(200000)
+    # data_choice = np.arange(200000)*12345**0.9+100
     # exit(0)
     # data_choice = data.copy()
     rmi_test = RmiModel()
@@ -180,8 +183,8 @@ def Test_Simple_main():
     print("@25% negative search:")
     data_test = np.random.choice(data_choice, 75000)
     data_test.sort()
-    # data_test_ = np.random.choice(data_choice, 25000)
-    data_test_ = data_test[:25000] +1234
+    data_test_ = np.random.choice(data_choice, 25000)+1234
+    # data_test_ = data_test[:25000] +1234
     data_test_.sort()
     count_suc = 0
     count_fal = 0
