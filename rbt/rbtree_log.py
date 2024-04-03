@@ -398,8 +398,11 @@ if __name__ == '__main__':
     save_flag = int(input("请选择是否保存模型（1保存0不保存）:"))
 
     data = np.arange(tree_size)
-    data = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
+    data = np.fromfile('../HBFdex/log.txt', dtype=np.int32)
     data = np.random.choice(data, tree_size )
+    data_for_test = np.random.randint(0,1<<31,1*1000000)
+    data_for_test = np.setdiff1d(data_for_test, data)
+    print('test len :',len(data_for_test))
     # data.sort()
     # data = random.sample(data.tolist(),tree_size)
     # data = numpy.array(data)
@@ -448,7 +451,7 @@ if __name__ == '__main__':
     random.shuffle(data)
     start = time.time()
     data_test = np.random.choice(data, 75000)
-    data_test_= np.random.choice(data, 25000)+1234
+    data_test_= np.random.choice(data_for_test, 25000)
     for i in range(data_test.size):
         node_ans = tree.get_node(data_test[i])
         if node_ans == -1:
@@ -479,7 +482,7 @@ if __name__ == '__main__':
     random.shuffle(data)
     start = time.time()
     data_test = np.random.choice(data, 50000)
-    data_test_ = np.random.choice(data, 50000)+1234
+    data_test_ = np.random.choice(data_for_test, 50000)
     for i in range(data_test.size):
         node_ans = tree.get_node(data_test[i])
         if node_ans == -1:
@@ -510,7 +513,7 @@ if __name__ == '__main__':
     random.shuffle(data)
     start = time.time()
     data_test = np.random.choice(data, 25000)
-    data_test_ = np.random.choice(data, 75000)+1234
+    data_test_ = np.random.choice(data_for_test, 75000)
     for i in range(data_test.size):
         node_ans = tree.get_node(data_test[i])
         if node_ans == -1:
@@ -541,7 +544,7 @@ if __name__ == '__main__':
     random.shuffle(data)
     start = time.time()
     # data_test = np.random.choice(data, 75000)
-    data_test_ = np.random.choice(data, 100000)+1234
+    data_test_ = np.random.choice(data_for_test, 100000)
     for i in range(data_test_.size):
         node_ans = tree.get_node(data_test_[i])
         if node_ans == -1:

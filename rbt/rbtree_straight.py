@@ -398,7 +398,7 @@ if __name__ == '__main__':
     save_flag = int(input("请选择是否保存模型（1保存0不保存）:"))
 
     data = np.arange(tree_size)
-    data = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
+    data = np.fromfile('../data/straight.txt', dtype=np.int32)
     data = np.random.choice(data, tree_size )
     # data.sort()
     # data = random.sample(data.tolist(),tree_size)
@@ -559,7 +559,7 @@ if __name__ == '__main__':
     if save_flag:
         import pickle
         # 保存类对象到文件
-        with open(str(MB)+'MBtree.pkl', 'wb') as f:
+        with open(str(MB)+'MBtree_straight.pkl', 'wb') as f:
             pickle.dump(tree, f)
         print('model saved!')
 #
