@@ -46,7 +46,7 @@ mit_data = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
 
 data_size = 200*1000000
 
-# 生成1000个数，越大的数越密集
+
 data = np.exp(np.linspace(0, np.log(1<<31), data_size))
 data =data.astype(int)
 data.tofile('log.txt')
