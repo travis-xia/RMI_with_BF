@@ -5,42 +5,15 @@ from Newstructure import Filter
 from Node import *
 import sys
 from pympler import tracker
-
-# 人工生成的数据集测试
 def Test_Simple_main():
-
-    '''
-        正常从指定路径读入数据：(key,value)
-        data=pd.read_csv(path)
-        or
-        data=pd.read_excel(path)
-    '''
-    '''Randomly generate data '''
-    #data = np.hstack(np.random.randint(((-1) << 31), 1 << 31, size=50000))
-    # data = np.arange(5000)
     data = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
     data = np.random.choice(data, 25000000)
     data.sort()
-    '''Generate three different model:Traditional bloom filter/pyBloom/RMI
-        filter1=BloomFilter(capacity=?,error_rate=?);
-        filter2=Filter(FPR=?);
-        filter3=RMI(...)
-    '''
-
-    '''Test each model's timecost and capacity cost'''
-    '''Build cost:'''
-
-    list1 = np.array([])
-    list2 = np.array([])
-    list3 = np.array([])
-    list0 = np.array([])
     print("data loaded,ready to separate")
-
     list0 = data[np.where(data < 1 << 30)[0]]
     list1 = data[np.where((data < 2 << 30) & (data >= 1 << 30))[0]]
     list2 = data[np.where((data < 3 << 30) & (data >= 2 << 30))[0]]
     list3 = data[np.where(data >= 3 << 30)[0]]
-    #tr = tracker.SummaryTracker()
     print("list build,ready to feed models")
     if list0.size != 0:
         model0 = MLmodel(list0)
@@ -55,29 +28,11 @@ def Test_Simple_main():
         model3 = MLmodel(list3)
         print("model3 build", model3.model.coef_, model3.model.intercept_)
     print("models ready")
-    # compare two
-    # start=time.time()
-    # filter1 = BloomFilter(capacity=200000000, error_rate=0.001)
-    # for i in range(len(data)):
-    #     filter1.add(data[i])
-    # end=time.time()
-    # print("Building tranditional model cost:",end-start)
     start = time.time()
     filter2 = Filter(len(data),FPR=0.001)
     filter2.Build(data)
     end = time.time()
     print("Build pybloom model,time cost:", end - start)
-
-    '''
-    start=time.time()
-    filter3=RMI(...)
-    filter3.Build(data)
-    end=time.time()
-    print("RMI model cost:", end - start)
-    '''
-
-    '''Test FPR and search time of each model'''
-    # 传统的暂不运行
 
     print("@positive search:")
     data_test = np.random.choice(data, 100000)

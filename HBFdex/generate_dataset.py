@@ -60,7 +60,7 @@ plt.xlabel('Numbers (0 to 2^31)')
 plt.ylabel('Index of the Number')
 plt.title('Distribution of Numbers')
 plt.savefig('log.png')
-
+# plt.show()
 
 
 

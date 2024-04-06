@@ -2,13 +2,10 @@
 import numpy as np
 import pandas as pd
 import time as time
-from Newstructure import Filter
 from Node import *
-import sys
-from pympler import tracker
 def Test_Simple_main():
     data = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
-    data_size_ = 25000000
+    data_size_ = 1000000
     data = np.random.choice(data, data_size_)
     data.sort()
     print("data loaded,ready to separate")
@@ -43,17 +40,21 @@ def Test_Simple_main():
         models.append(model3)
         print("model3 build", model3.model.coef_, model3.model.intercept_)
     print("models ready")
+    print()
+
+
     start = time.time()
-    # filter2 = Filter(len(data),FPR=0.001)
-    # filter2.Build(data)
-
-
-    la = BloomFilter(length[0]+length[1]+10000,0.1)
-    lb = BloomFilter(length[2]+length[3]+10000,0.1)
-    l0 = BloomFilter(length[0]+10000,0.01)
-    l1 = BloomFilter(length[1]+10000,0.01)
-    l2 = BloomFilter(length[2]+10000,0.01)
-    l3 = BloomFilter(length[3]+10000,0.01)
+    fpr = 0.01
+    la = BloomFilter(length[0]+length[1]+10000,fpr)
+    lb = BloomFilter(length[2]+length[3]+10000,fpr)
+    # l0 = BloomFilter( int((length[0]+length[1])*fpr)+10000,0.1)
+    # l1 = BloomFilter( int((length[0]+length[1])*fpr)+10000,0.1)
+    # l2 = BloomFilter( int((length[2]+length[3])*fpr)+10000,0.1)
+    # l3 = BloomFilter( int((length[2]+length[3])*fpr)+10000,0.1)
+    l0 = BloomFilter( int(data_size_*fpr)+10000,0.1)
+    l1 = BloomFilter( int(data_size_*fpr)+10000,0.1)
+    l2 = BloomFilter( int(data_size_*fpr)+10000,0.1)
+    l3 = BloomFilter( int(data_size_*fpr)+10000,0.1)
     bf_level1 = []
     bf_level2 = []
     bf_level1.append(la)
@@ -66,9 +67,21 @@ def Test_Simple_main():
         bit = i>>30
         flag = i>>29
         bf_level1[bit].add(i)
-        bf_level2[flag].add(i)
+        # bf_level2[flag].add(i)
+    dataset_for_neg_flush = np.random.randint(0,4<<29,data_size_)
+    dataset_for_neg_flush = np.setdiff1d(dataset_for_neg_flush, data)#去重
+    clist = [0,0,0,0]
+    for i in dataset_for_neg_flush:
+        bit = i >> 30
+        flag = i >> 29
+        if (i in bf_level1[bit]):
+            clist[flag]+=1
+            bf_level2[flag].add(i)
     end = time.time()
+    print(clist)
     print("Build pybloom model,time cost:", end - start)
+    print()
+
 
     print("@positive search:")
     data_test = np.random.choice(data, 100000)
@@ -81,7 +94,7 @@ def Test_Simple_main():
         # print(filter2.Contains(i))
         bit = i >> 30
         flag = i >> 29
-        if (i not in bf_level1[bit]) or (i not in bf_level2[flag]):
+        if (i not in bf_level1[bit]) or (i in bf_level2[flag]):
             # print("False")
             count_fal_bf += 1
         else:
@@ -96,7 +109,7 @@ def Test_Simple_main():
 
     print("@25% negative search:")
     data_test = np.random.choice(data, 75000)
-    data_test_ = np.random.randint(0,1<<20,size=25000)
+    data_test_ = np.random.randint(0, 1 << 20, size=25000)
     data_test.sort()
     data_test_.sort()
     start = time.time()
@@ -135,7 +148,7 @@ def Test_Simple_main():
 
     print("@50% negative search:")
     data_test = np.random.choice(data, 50000)
-    data_test_ = np.random.randint(0,1<<20,size=50000)
+    data_test_ = np.random.randint(0, 1 << 20, size=50000)
     data_test.sort()
     data_test_.sort()
     start = time.time()
@@ -234,6 +247,7 @@ def Test_Simple_main():
     end = time.time()
     print("suc:", count_suc, " bf not in:", count_fal_bf, " fal:", count_fal)  # bf的fal也是准确的：我们准确地确认它不在
     print("new cost is ", end - start)
+
 
 if __name__ == '__main__':
     Test_Simple_main();

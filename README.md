@@ -11,8 +11,12 @@
 
 运行：
 
-    1，btree中各个文件
+    1,btree中各个文件，如btree.py
 
-    2，new_model中各个文件
+    2,new_model中各个文件，如model_speed.py
+
+    3,HBFdex中HBFdex.py
+
+    4,rbtree中各个文件，如rbtree.py
     
 
