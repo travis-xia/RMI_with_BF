@@ -4,8 +4,9 @@ import pandas as pd
 import time as time
 from Node import *
 def Test_Simple_main():
+    MB =  int(input("请输入数据大小(1-200)MB:"))
     data = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
-    data_size_ = 1000000
+    data_size_ = MB *1000000
     data = np.random.choice(data, data_size_)
     data.sort()
     print("data loaded,ready to separate")
@@ -120,7 +121,7 @@ def Test_Simple_main():
         # print(filter2.Contains(i))
         bit = i >> 30
         flag = i >> 29
-        if (i not in bf_level1[bit]) or (i not in bf_level2[flag]):
+        if (i not in bf_level1[bit]) or (i in bf_level2[flag]):
             # print("False")
             count_fal_bf += 1
         else:
@@ -133,7 +134,7 @@ def Test_Simple_main():
         # print(filter2.Contains(i))
         bit = i >> 30
         flag = i >> 29
-        if (i not in bf_level1[bit]) or (i not in bf_level2[flag]):
+        if (i not in bf_level1[bit]) or (i in bf_level2[flag]):
             # print("False")
             count_fal_bf += 1
         else:
@@ -159,7 +160,7 @@ def Test_Simple_main():
         # print(filter2.Contains(i))
         bit = i >> 30
         flag = i >> 29
-        if (i not in bf_level1[bit]) or (i not in bf_level2[flag]):
+        if (i not in bf_level1[bit]) or (i in bf_level2[flag]):
             # print("False")
             count_fal_bf += 1
         else:
@@ -172,7 +173,7 @@ def Test_Simple_main():
         # print(filter2.Contains(i))
         bit = i >> 30
         flag = i >> 29
-        if (i not in bf_level1[bit]) or (i not in bf_level2[flag]):
+        if (i not in bf_level1[bit]) or (i in bf_level2[flag]):
             # print("False")
             count_fal_bf += 1
         else:
@@ -198,7 +199,7 @@ def Test_Simple_main():
         # print(filter2.Contains(i))
         bit = i >> 30
         flag = i >> 29
-        if (i not in bf_level1[bit]) or (i not in bf_level2[flag]):
+        if (i not in bf_level1[bit]) or (i in bf_level2[flag]):
             # print("False")
             count_fal_bf += 1
         else:
@@ -211,7 +212,7 @@ def Test_Simple_main():
         # print(filter2.Contains(i))
         bit = i >> 30
         flag = i >> 29
-        if (i not in bf_level1[bit]) or (i not in bf_level2[flag]):
+        if (i not in bf_level1[bit]) or (i in bf_level2[flag]):
             # print("False")
             count_fal_bf += 1
         else:
@@ -235,7 +236,7 @@ def Test_Simple_main():
         # print(filter2.Contains(i))
         bit = i >> 30
         flag = i >> 29
-        if (i not in bf_level1[bit]) or (i not in bf_level2[flag]):
+        if (i not in bf_level1[bit]) or (i in bf_level2[flag]):
             # print("False")
             count_fal_bf += 1
         else:
