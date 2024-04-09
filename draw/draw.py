@@ -28,13 +28,32 @@ correct_rate_25M = [1,.99994,.99991,.99983,.99977]
 correct_rate_75M = [1,.99999,.99999,.99999,.99993]
 correct_rate_150M = [1,1,1,.99999,1]
 correct_rate_200M = [1,1,1,1,1]
-
+mem_array = [64753.4062,50536.7578,885.0195,773.3844,997.0625]#b RBtree rmi alex hbfdex
 # print(plt.style.available)
-# ['Solarize_Light2', '_classic_test_patch', 'bmh', 'classic', 'dark_background', 'fast',
-#  'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn', 'seaborn-bright', 'seaborn-colorblind',
-#  'seaborn-dark', 'seaborn-dark-palette', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted',
-#  'seaborn-notebook', 'seaborn-paper', 'seaborn-pastel', 'seaborn-poster', 'seaborn-talk', 'seaborn-ticks',
-#  'seaborn-white', 'seaborn-whitegrid', 'tableau-colorblind10']
+['Solarize_Light2', '_classic_test_patch', 'bmh', 'classic', 'dark_background', 'fast',
+ 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn', 'seaborn-bright', 'seaborn-colorblind',
+ 'seaborn-dark', 'seaborn-dark-palette', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted',
+ 'seaborn-notebook', 'seaborn-paper', 'seaborn-pastel', 'seaborn-poster', 'seaborn-talk', 'seaborn-ticks',
+ 'seaborn-white', 'seaborn-whitegrid', 'tableau-colorblind10']
+
+
+#内存展示
+labels = ['btree', 'RBtree', 'rmi', 'alex', 'HBFdex']
+plt.style.use('seaborn-white')
+# 将内存数据转换为对数尺度
+log_mem_array = [max(1, x) for x in mem_array]  # 防止出现对数为0的情况
+log_mem_array = [round(10**(-3)*x, 2) for x in log_mem_array]  # 将单位转换为MB并取两位小数
+
+# 创建柱状图
+plt.bar(labels, log_mem_array,color =['blue', 'salmon', 'lightgreen', 'orchid', 'gold'])
+
+# 添加标题和标签
+plt.title('Memory Usage')
+plt.xlabel('Application')
+plt.ylabel('Memory (kMB, log scale)')
+# 使用对数尺度
+plt.yscale('log')
+plt.show()
 
 
 # #btree和new_model的 准确率-负键占比图
@@ -64,40 +83,40 @@ correct_rate_200M = [1,1,1,1,1]
 # #plt.show()
 # plt.savefig('accuracy_negative.jpg', format='jpg', dpi=1000)
 
-# btree和new_model的 效率-数据量图(25%negative)
-plt.clf()
-x_label = [1,25,75,150,200]
-y1 =np.array([])
-for i in range(len(btree)):
-    y1 = np.append(y1,np.around(btree[i][1]*10,3))
-y2 =np.array([])
-for i in range(len(new_model)):
-    y2 = np.append(y2,np.around(new_model[i][1]*10,3))
-y3 =np.array([])
-for i in range(len(RMI)):
-    y3 = np.append(y3,np.around(RMI[i][1]*10,3))
-y4 =np.array([])
-for i in range(len(RMI)):
-    y4 = np.append(y4,np.around(opt[i][1]*10,3))
-plt.margins(0) # 控制两边是否有边界
-plt.plot(x_label,y1,label="btree")
-# for a, b in zip(x_label, y1):
-#     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
-plt.plot(x_label,y2,label="new_model")
-# for a, b in zip(x_label, y2):
-#     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
-plt.plot(x_label,y3,label="RMI")
-# for a, b in zip(x_label, y3):
-#     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
-plt.plot(x_label,y3,label="optimized")
-# for a, b in zip(x_label, y4):
-#     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
-plt.xlabel("size of dataset(M)")
-plt.ylabel("average time_cost of one search(μs)")
-plt.ylim(0,100)
-plt.legend()
-plt.show()
-# plt.savefig('speed_size.jpg', format='jpg', dpi=1000)
+# # btree和new_model的 效率-数据量图(25%negative)
+# plt.clf()
+# x_label = [1,25,75,150,200]
+# y1 =np.array([])
+# for i in range(len(btree)):
+#     y1 = np.append(y1,np.around(btree[i][1]*10,3))
+# y2 =np.array([])
+# for i in range(len(new_model)):
+#     y2 = np.append(y2,np.around(new_model[i][1]*10,3))
+# y3 =np.array([])
+# for i in range(len(RMI)):
+#     y3 = np.append(y3,np.around(RMI[i][1]*10,3))
+# y4 =np.array([])
+# for i in range(len(RMI)):
+#     y4 = np.append(y4,np.around(opt[i][1]*10,3))
+# plt.margins(0) # 控制两边是否有边界
+# plt.plot(x_label,y1,label="btree")
+# # for a, b in zip(x_label, y1):
+# #     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+# plt.plot(x_label,y2,label="new_model")
+# # for a, b in zip(x_label, y2):
+# #     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+# plt.plot(x_label,y3,label="RMI")
+# # for a, b in zip(x_label, y3):
+# #     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+# plt.plot(x_label,y3,label="optimized")
+# # for a, b in zip(x_label, y4):
+# #     plt.text(a, b, b, ha='center', va='bottom', fontsize=10)
+# plt.xlabel("size of dataset(M)")
+# plt.ylabel("average time_cost of one search(μs)")
+# plt.ylim(0,100)
+# plt.legend()
+# plt.show()
+# # plt.savefig('speed_size.jpg', format='jpg', dpi=1000)
 
 # #btree和new_model的 效率-负键占比图
 # plt.clf()
