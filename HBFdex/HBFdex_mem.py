@@ -3,7 +3,23 @@ import numpy as np
 import pandas as pd
 import time as time
 from Node import *
+from memory_profiler import profile
 
+def fun1(data,bf_level1):
+    for i in data:
+        bit = i>>30
+        bf_level1[bit].add(i)
+    return bf_level1
+def fun2(dataset_for_neg_flush,bf_level1,clist,bf_level2):
+    for i in dataset_for_neg_flush:
+        bit = i >> 30
+        flag = i >> 29
+        if (i in bf_level1[bit]):
+            clist[flag]+=1
+            bf_level2[flag].add(i)
+    return bf_level2,clist
+
+@profile(precision=4)
 def Test_Simple_main():
     MB =  int(input("请输入数据大小(1-200)MB:"))
     data = np.fromfile('../data/books_200M_uint32.txt', dtype=np.int32)
@@ -49,10 +65,6 @@ def Test_Simple_main():
     fpr = 0.01
     la = BloomFilter(length[0]+length[1]+10000,fpr)
     lb = BloomFilter(length[2]+length[3]+10000,fpr)
-    # l0 = BloomFilter( int((length[0]+length[1])*fpr)+10000,0.1)
-    # l1 = BloomFilter( int((length[0]+length[1])*fpr)+10000,0.1)
-    # l2 = BloomFilter( int((length[2]+length[3])*fpr)+10000,0.1)
-    # l3 = BloomFilter( int((length[2]+length[3])*fpr)+10000,0.1)
     l0 = BloomFilter( int(data_size_*fpr)+10000,0.1)
     l1 = BloomFilter( int(data_size_*fpr)+10000,0.1)
     l2 = BloomFilter( int(data_size_*fpr)+10000,0.1)
@@ -65,20 +77,17 @@ def Test_Simple_main():
     bf_level2.append(l1)
     bf_level2.append(l2)
     bf_level2.append(l3)
-    for i in data:
-        bit = i>>30
-        flag = i>>29
-        bf_level1[bit].add(i)
-        # bf_level2[flag].add(i)
+    bf_level1=fun1(data,bf_level1)
     dataset_for_neg_flush = np.random.randint(0,4<<29,data_size_)
     dataset_for_neg_flush = np.setdiff1d(dataset_for_neg_flush, data)#去重
     clist = [0,0,0,0]
-    for i in dataset_for_neg_flush:
-        bit = i >> 30
-        flag = i >> 29
-        if (i in bf_level1[bit]):
-            clist[flag]+=1
-            bf_level2[flag].add(i)
+    # for i in dataset_for_neg_flush:
+    #     bit = i >> 30
+    #     flag = i >> 29
+    #     if (i in bf_level1[bit]):
+    #         clist[flag]+=1
+    #         bf_level2[flag].add(i)
+    bf_level2,clist=fun2(dataset_for_neg_flush,bf_level1,clist,bf_level2)
     end = time.time()
     print(clist)
     print("Build pybloom model,time cost:", end - start)
@@ -87,6 +96,8 @@ def Test_Simple_main():
 
     print("@positive search:")
     data_test = np.random.choice(data, 1)
+    del data
+
     for i in data_test:
         bit = i >> 30
         flag = i >> 29
