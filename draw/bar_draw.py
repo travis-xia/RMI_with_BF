@@ -36,6 +36,7 @@ y1 = 100000.0/np.array(btree)[:,1]
 y2 = 100000.0/np.array(RMI)[:,1]
 y3 = 100000.0/np.array(new_model)[:,1]
 y4 = 100000.0/np.array(opt)[:,1]
+print(y1)
 bar_width  = 0.25
 tick_label = ["1M", '25M', '75M', '150M', '200M']
 # 绘制柱状图
@@ -43,14 +44,14 @@ tick_label = ["1M", '25M', '75M', '150M', '200M']
 plt.style.use('classic')
 print(plt.style.available)
 plt.bar(x, y1, bar_width, align="center",  tick_label=tick_label, label='btree')
-plt.bar(x+bar_width, y2, bar_width, align="center",  tick_label=tick_label, label='RMI')
-plt.bar(x+2*bar_width, y3, bar_width, align="center",  tick_label=tick_label, label='new_model')
+# plt.bar(x+bar_width, y2, bar_width, align="center",  tick_label=tick_label, label='RMI')
+# plt.bar(x+2*bar_width, y3, bar_width, align="center",  tick_label=tick_label, label='new_model')
 
 plt.xlabel("Data size")
 plt.ylabel("average time_cost of one search(μs)")
 plt.ylabel("average search times in 1s")
 # 设置x轴刻度显示位置
-plt.xticks(x+bar_width/2, tick_label)
+# plt.xticks(x+bar_width/2, tick_label)
 
 plt.legend(loc='upper right')
 plt.show()
